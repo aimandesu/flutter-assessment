@@ -6,6 +6,7 @@ import 'package:flutter_assessment/constant.dart';
 import 'package:flutter_assessment/provider/contact_data.dart';
 import 'package:flutter_assessment/screen/favourite/favourite.dart';
 import 'package:flutter_assessment/screen/home/home.dart';
+import 'package:flutter_assessment/screen/search/search.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
@@ -17,16 +18,45 @@ class Pages extends StatefulWidget {
 }
 
 class _PagesState extends State<Pages> {
+  final _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   bool _isFabVisible = true;
   final pageController = PageController();
   int indexPage = 0;
   final TextEditingController searchController = TextEditingController();
+  bool searchOn = false;
 
   @override
   void initState() {
     super.initState();
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        upSearch();
+      }
+    });
     _scrollController.addListener(_onScroll);
+  }
+
+  void upSearch() {
+    setState(() {
+      searchOn = true;
+      _isFabVisible = false;
+    });
+  }
+
+  void closeSearch() {
+    setState(() {
+      searchOn = false;
+      _isFabVisible = true;
+      _focusNode.unfocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+    _focusNode.dispose();
   }
 
   void _onScroll() {
@@ -41,12 +71,6 @@ class _PagesState extends State<Pages> {
     setState(() {
       _isFabVisible = isFabVisible!;
     });
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
   }
 
   void addDataInitialisation(List<dynamic> data) {
@@ -90,33 +114,68 @@ class _PagesState extends State<Pages> {
               ),
               padding: const EdgeInsets.only(left: 10),
               child: TextFormField(
+                focusNode: _focusNode,
                 controller: searchController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: "Search Contact",
-                  suffixIcon: Icon(Icons.search),
+                  suffixIcon: SizedBox(
+                    width: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Icon(Icons.search),
+                        searchOn
+                            ? IconButton(
+                                onPressed: closeSearch,
+                                icon: const Icon(Icons.crop_sharp))
+                            : Container()
+                      ],
+                    ),
+                  ),
                 ),
+                onChanged: (value){
+                  setState(() {
+
+                  });
+                },
               ),
             ),
-            SizedBox(
-              width: getSize(context).height * 1,
-              height: getSize(context).width * 0.08,
-              child: Row(
-                children: [buttonTile("All", 0), buttonTile("Favourite", 1)],
-              ),
-            ),
-            Expanded(
-              child: PageView(
-                controller: pageController,
-                onPageChanged: (index) => setState(() {
-                  indexPage = index;
-                }),
-                children: [
-                  Home(onScroll: _scrollController),
-                  const Favourite(),
-                ],
-              ),
-            ),
+            searchOn
+                ? Container()
+                : SizedBox(
+                    width: getSize(context).height * 1,
+                    height: getSize(context).width * 0.08,
+                    child: Row(
+                      children: [
+                        buttonTile("All", 0),
+                        buttonTile("Favourite", 1)
+                      ],
+                    ),
+                  ),
+            searchOn
+                ? Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: const Color(0xFF0E3311).withOpacity(0.5),
+                      ),
+                      margin: const EdgeInsets.all(10),
+                      child: Search(query: searchController.text),
+                    ),
+                  )
+                : Expanded(
+                    child: PageView(
+                      controller: pageController,
+                      onPageChanged: (index) => setState(() {
+                        indexPage = index;
+                      }),
+                      children: [
+                        Home(onScroll: _scrollController),
+                        const Favourite(),
+                      ],
+                    ),
+                  ),
           ],
         ),
       ),

@@ -92,4 +92,24 @@ class ContactData with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<Contact>> searchContact(String query) async{
+    List<Contact> maps = [];
+    final List<Contact> contact = await contactList();
+    for (var element in contact) {
+      if(element.first_name.toLowerCase().contains(query.toLowerCase()) && query != ""){
+        maps.add(element);
+      }
+    }
+    return List.generate(maps.length, (index) {
+      return Contact(
+          id: maps[index].id,
+          email: maps[index].email,
+          first_name: maps[index].first_name,
+          last_name: maps[index].last_name,
+          avatar: maps[index].avatar,
+          favourite: maps[index].favourite
+      );
+    });
+  }
+
 }
