@@ -42,8 +42,8 @@ class PictureName extends StatelessWidget {
         children: [
           editProfile
               ? Align(
-            alignment: Alignment.topRight,
-                child: SizedBox(
+                  alignment: Alignment.topRight,
+                  child: SizedBox(
                     height: 50,
                     child: IconButton(
                       onPressed: () async {
@@ -59,7 +59,7 @@ class PictureName extends StatelessWidget {
                       ),
                     ),
                   ),
-              )
+                )
               : SizedBox(
                   height: 50,
                   child: Row(
@@ -68,8 +68,13 @@ class PictureName extends StatelessWidget {
                       IconButton(
                         onPressed: markFavourite,
                         icon: favourite == 0
-                            ? const Icon(Icons.star_border)
-                            : const Icon(Icons.star),
+                            ? const Icon(
+                                Icons.star_border,
+                              )
+                            : const Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                              ),
                       ),
                       TextButton(
                         onPressed: changeEditProfile,
@@ -98,7 +103,10 @@ class PictureName extends StatelessWidget {
                           child: CircleAvatar(
                               radius: 50,
                               backgroundColor: Theme.of(context).primaryColor,
-                              child: const Icon(Icons.check)),
+                              child: const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              )),
                         )
                       : favourite == 0
                           ? Container()
@@ -107,7 +115,10 @@ class PictureName extends StatelessWidget {
                               width: 20,
                               right: 10,
                               bottom: 10,
-                              child: Icon(Icons.star),
+                              child: Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                              ),
                             ),
                 ],
               ),

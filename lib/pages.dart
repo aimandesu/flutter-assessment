@@ -41,6 +41,7 @@ class _PagesState extends State<Pages> {
     setState(() {
       searchOn = true;
       _isFabVisible = false;
+      indexPage = 0;
     });
   }
 
@@ -97,12 +98,16 @@ class _PagesState extends State<Pages> {
         actions: [
           IconButton(
             onPressed: refreshContactList,
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
           )
         ],
       ),
       body: SizedBox(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               decoration: decorationCircular(Colors.white, 35),
@@ -119,8 +124,9 @@ class _PagesState extends State<Pages> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: "Search Contact",
-                  suffixIcon: SizedBox(
+                  suffixIcon: Container(
                     width: 80,
+                    margin: const EdgeInsets.only(right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -128,16 +134,14 @@ class _PagesState extends State<Pages> {
                         searchOn
                             ? IconButton(
                                 onPressed: closeSearch,
-                                icon: const Icon(Icons.crop_sharp))
+                                icon: const Icon(Icons.close))
                             : Container()
                       ],
                     ),
                   ),
                 ),
-                onChanged: (value){
-                  setState(() {
-
-                  });
+                onChanged: (value) {
+                  setState(() {});
                 },
               ),
             ),
@@ -145,7 +149,7 @@ class _PagesState extends State<Pages> {
                 ? Container()
                 : SizedBox(
                     width: getSize(context).height * 1,
-                    height: getSize(context).width * 0.08,
+                    height: 35,
                     child: Row(
                       children: [
                         buttonTile("All", 0),
@@ -158,7 +162,7 @@ class _PagesState extends State<Pages> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
-                        color: const Color(0xFF0E3311).withOpacity(0.5),
+                        color: const Color(0xFFf4f4f4).withOpacity(0.5),
                       ),
                       margin: const EdgeInsets.all(10),
                       child: Search(query: searchController.text),
@@ -209,7 +213,11 @@ class _PagesState extends State<Pages> {
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: TextButton(
         onPressed: () => pageController.jumpToPage(pagePosition),
-        child: Text(title),
+        child: Text(title, style: TextStyle(
+          color:  pagePosition == indexPage
+              ? Colors.white
+              : Colors.grey,
+        ),),
       ),
     );
   }

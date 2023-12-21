@@ -6,6 +6,7 @@ import '../screen/profile/profile.dart';
 
 class ContactLayout extends StatelessWidget {
   const ContactLayout({super.key, required this.contact});
+
   final Contact contact;
 
   @override
@@ -22,7 +23,10 @@ class ContactLayout extends StatelessWidget {
             Text(contact.first_name),
             contact.favourite == 0
                 ? Container()
-                : const Icon(Icons.star),
+                : const Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                  ),
           ],
         ),
         subtitle: Text(contact.email),
@@ -30,16 +34,16 @@ class ContactLayout extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pushNamed(
               Profile.routeName,
-              arguments: {
-                "contact": contact,
-                "from": "contact_layout"
-              },
+              arguments: {"contact": contact, "from": "contact_layout"},
             );
           },
-          icon: const Icon(Icons.send),
+          icon: const Icon(
+            Icons.send,
+            color: Color(0xFF32BAA5),
+          ),
         ),
-      ), contact: contact,
+      ),
+      contact: contact,
     );
-
   }
 }

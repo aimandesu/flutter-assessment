@@ -8,7 +8,7 @@ class Email extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      color: Colors.grey,
+      color: const Color(0xFFe9e9e9),
       height: 80,
       width: size.width * 1,
       child: Column(

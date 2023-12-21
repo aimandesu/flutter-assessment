@@ -12,17 +12,27 @@ class Favourite extends StatelessWidget {
   Widget build(BuildContext context) {
     final contactProvider = Provider.of<ContactData>(context).favContactList();
 
+    var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
     return FutureBuilder(
       future: contactProvider,
       builder: (context, AsyncSnapshot<List<Contact>> snapshot) {
         if (snapshot.hasData && snapshot.data!.isEmpty) {
-          return Column(
-            children: [
-              const SizedBox(height: 30),
-              Image.asset("assets/empty.jpg"),
-              const Text("No list of contact here,\n   add contact now")
-            ],
-          );
+          return isPortrait
+              ? Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    Image.asset("assets/empty.jpg"),
+                    const Text("No list of contact here,\n   add contact now")
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/empty.jpg"),
+                    const Text("No list of contact here,\n   add contact now")
+                  ],
+                );
         } else if (snapshot.hasData) {
           return ListView.builder(
             itemCount: snapshot.data!.length,

@@ -13,15 +13,20 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final contactProvider = Provider.of<ContactData>(context).searchContact(query);
+    final contactProvider =
+        Provider.of<ContactData>(context).searchContact(query);
 
     return FutureBuilder(
       future: contactProvider,
       builder: (context, AsyncSnapshot<List<Contact>> snapshot) {
         if (snapshot.hasData && snapshot.data!.isEmpty) {
           return const Center(
-            child: Text("No Contact Found"),
+            child: Text(
+              "No Contact Found",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
           );
         } else if (snapshot.hasData) {
           return ListView.builder(

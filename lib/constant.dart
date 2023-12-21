@@ -23,9 +23,9 @@ Decoration decorationCircular(Color color, double circular) {
 }
 
 Future<bool> popDialog(
-    BuildContext context,
-    dynamic value,
-    ) async {
+  BuildContext context,
+  dynamic value,
+) async {
   final contactProvider = Provider.of<ContactData>(context, listen: false);
   bool userClickedYes = false;
 
@@ -42,7 +42,10 @@ Future<bool> popDialog(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton(
-                  child: const Text('Yes'),
+                  child: const Text(
+                    'Yes',
+                    style: TextStyle(color: Colors.red),
+                  ),
                   onPressed: () async {
                     await contactProvider.deleteContact(value);
                     if (context.mounted) {
@@ -56,7 +59,10 @@ Future<bool> popDialog(
                   thickness: 1,
                 ),
                 TextButton(
-                  child: const Text('No'),
+                  child: const Text(
+                    'No',
+                    style: TextStyle(color: Color(0xFF32BAA5)),
+                  ),
                   onPressed: () {
                     if (context.mounted) {
                       Navigator.of(context).pop();
@@ -73,4 +79,3 @@ Future<bool> popDialog(
 
   return userClickedYes;
 }
-

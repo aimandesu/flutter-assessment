@@ -15,33 +15,51 @@ class TileSlider extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Slidable(
+      key: ValueKey(contact.id),
       endActionPane: ActionPane(
         extentRatio: 0.4,
         motion: const DrawerMotion(),
         children: [
-           SlidableAction(
-            onPressed: (_){
-              Navigator.of(context).pushNamed(
-                Profile.routeName,
-                arguments: {
-                  "contact": contact,
-                  "from": "tile_slider"
-                },
-              ).then((value) {
-                print(value);
-              });
-            },
-            backgroundColor: const Color(0xFFEBF8F6),
-            foregroundColor: Colors.yellow,
-            icon: Icons.update,
-            label: '',
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  Profile.routeName,
+                  arguments: {"contact": contact, "from": "tile_slider"},
+                );
+              },
+              child: Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(2),
+                width: 20, // space for actionPan
+                decoration: BoxDecoration(
+                    color: const Color(0xFFEBF8F6),
+                    borderRadius: BorderRadius.circular(16)),
+                child: const Icon(
+                  Icons.update,
+                  color: Colors.yellow,
+                ),
+              ),
+            ),
           ),
-          SlidableAction(
-            onPressed: (_)  =>  popDialog(context, contact.id),
-            backgroundColor: const Color(0xFFEBF8F6),
-            foregroundColor: Colors.red,
-            icon: Icons.delete,
-            label: '',
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                popDialog(context, contact.id);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(2),
+                width: 20, // space for actionPan
+                decoration: BoxDecoration(
+                    color: const Color(0xFFEBF8F6),
+                    borderRadius: BorderRadius.circular(16)),
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              ),
+            ),
           ),
         ],
       ),

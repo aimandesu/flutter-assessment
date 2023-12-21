@@ -13,9 +13,9 @@ class SubmitButton extends StatelessWidget {
 
   void launchEmailSubmission(String email) async {
     final Uri params = Uri(
-        scheme: 'mailto',
-        path: email,
-        // query: 'subject=Default Subject&body=Default body'
+      scheme: 'mailto',
+      path: email,
+      // query: 'subject=Default Subject&body=Default body'
     );
     String url = params.toString();
     if (await canLaunchUrl(Uri.parse(url))) {
@@ -44,7 +44,10 @@ class SubmitButton extends StatelessWidget {
         height: 60,
         decoration: decorationCircular(Theme.of(context).primaryColor, 35),
         child: Center(
-          child: Text(hint),
+          child: Text(
+            hint,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );

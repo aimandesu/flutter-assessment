@@ -27,10 +27,15 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             centerTitle: true,
             color: Color(0xFF32BAA5),
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+            ),
           ),
           primaryColor: const Color(0xFF32BAA5),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
             backgroundColor: Color(0xFF32BAA5),
+            foregroundColor: Colors.white,
           ),
         ),
         debugShowCheckedModeBanner: false,
